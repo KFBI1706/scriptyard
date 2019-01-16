@@ -18,10 +18,21 @@ func main() {
 
 	client := githubv4.NewClient(httpClient)
 
+	type day struct {
+		ContributionCount githubv4.Int
+	}
+	type week struct {
+		ContributionDays []day
+	}
+
 	var query struct {
 		Viewer struct {
 			ContributionsCollection struct {
-				TotalCommitContributions githubv4.Int
+				ContributionCalendar struct {
+					Weeks              []week
+					TotalContributions githubv4.Int
+					Colors             []githubv4.String
+				}
 			}
 			Login     githubv4.String
 			CreatedAt githubv4.DateTime
@@ -34,6 +45,13 @@ func main() {
 
 	fmt.Println(query.Viewer.Login)
 	fmt.Println("Joined", query.Viewer.CreatedAt.Format(time.RFC850))
-	fmt.Println(query.Viewer.ContributionsCollection.TotalCommitContributions, "Contributions in the last year")
+	fmt.Println(query.Viewer.ContributionsCollection.ContributionCalendar.TotalContributions, "Contributions in the last year")
+	fmt.Println("Colors ", query.Viewer.ContributionsCollection.ContributionCalendar.Colors)
+	weeks := query.Viewer.ContributionsCollection.ContributionCalendar.Weeks
+	lastDays := weeks[len(weeks)-1].ContributionDays
+	lastDay := lastDays[len(lastDays)-1]
+	fmt.Printf("You made %d contributions today!\n", lastDay.ContributionCount)
+
+	fmt.Println("Weeks ", query.Viewer.ContributionsCollection.ContributionCalendar.Weeks)
 
 }
