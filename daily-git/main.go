@@ -10,6 +10,24 @@ import (
 	"golang.org/x/oauth2"
 )
 
+const (
+	//PAD boxes
+	PAD = 2
+)
+
+var (
+	weeks []week
+)
+
+type day struct {
+	ContributionCount githubv4.Int
+	Color             githubv4.String
+}
+
+type week struct {
+	ContributionDays []day
+}
+
 func main() {
 	src := oauth2.StaticTokenSource(
 		&oauth2.Token{AccessToken: os.Getenv("GITHUB_TOKEN")},
@@ -17,13 +35,6 @@ func main() {
 	httpClient := oauth2.NewClient(context.Background(), src)
 
 	client := githubv4.NewClient(httpClient)
-
-	type day struct {
-		ContributionCount githubv4.Int
-	}
-	type week struct {
-		ContributionDays []day
-	}
 
 	var query struct {
 		Viewer struct {
@@ -47,11 +58,13 @@ func main() {
 	fmt.Println("Joined", query.Viewer.CreatedAt.Format(time.RFC850))
 	fmt.Println(query.Viewer.ContributionsCollection.ContributionCalendar.TotalContributions, "Contributions in the last year")
 	fmt.Println("Colors ", query.Viewer.ContributionsCollection.ContributionCalendar.Colors)
-	weeks := query.Viewer.ContributionsCollection.ContributionCalendar.Weeks
+	weeks = query.Viewer.ContributionsCollection.ContributionCalendar.Weeks
 	lastDays := weeks[len(weeks)-1].ContributionDays
 	lastDay := lastDays[len(lastDays)-1]
 	fmt.Printf("You made %d contributions today!\n", lastDay.ContributionCount)
 
-	fmt.Println("Weeks ", query.Viewer.ContributionsCollection.ContributionCalendar.Weeks)
+	fmt.Println("Weeks ", weeks)
+
+	termInit()
 
 }
