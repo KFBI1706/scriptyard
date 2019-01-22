@@ -19,6 +19,8 @@ var (
 	weeks []week
 	//AvatarURL is a link to the github avatar for global use
 	AvatarURL string
+	//Name is a global reference to the username
+	Name string
 )
 
 type day struct {
@@ -47,9 +49,9 @@ func main() {
 					Colors             []githubv4.String
 				}
 			}
-			Login     githubv4.String
+			Login     string `graphql:"login"`
 			CreatedAt githubv4.DateTime
-			AvatarURL string `graphql:"avatarUrl(size: 72)"`
+			AvatarURL string `graphql:"avatarUrl(size: 144)"`
 		}
 	}
 	err := client.Query(context.Background(), &query, nil)
@@ -68,6 +70,7 @@ func main() {
 
 	fmt.Println("Weeks ", weeks)
 	AvatarURL = query.Viewer.AvatarURL
+	Name = query.Viewer.Login
 
 	fmt.Println("Avatar Url: ", AvatarURL)
 

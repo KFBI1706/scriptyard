@@ -65,6 +65,7 @@ loop:
 }
 
 func makeAvatar(s tcell.Screen) {
+	var j int
 	img, err := getImage(AvatarURL)
 	if err != nil {
 		log.Fatal(err)
@@ -77,7 +78,7 @@ func makeAvatar(s tcell.Screen) {
 	xs, ys := max.X/w, max.Y/h
 
 	for i := PAD; i < max.X/xs; i++ {
-		for j := PAD; j < max.Y/ys; j++ {
+		for j = PAD; j < max.Y/ys; j++ {
 			r, g, b, _ := img.At(i*xs, j*ys).RGBA()
 			rgb, err := colors.RGB(uint8(r/0x101), uint8(g/0x101), uint8(b/0x101))
 			if err != nil {
@@ -85,6 +86,12 @@ func makeAvatar(s tcell.Screen) {
 			}
 			s.SetCell(i, j, st.Background(tcell.GetColor(rgb.ToHEX().String())), ' ')
 		}
+	}
+
+	j, i := j+1, PAD
+
+	for inc, r := range Name {
+		s.SetCell(i+inc, j, tcell.StyleDefault.Bold(true).Background(tcell.ColorWhite).Foreground(tcell.ColorGray), r)
 	}
 
 	s.Show()
