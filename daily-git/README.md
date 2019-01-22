@@ -4,6 +4,9 @@ I've become obsessed with my github stats, why not view it from the commandline!
 
 I'm well aware that node versions exists, but I avoid that when I can.
 
+![daily-git screenfetch](./daily-git.jpg "daily-git")
+
+# TODOs
 - [x] Show contribution count
 - [x] Daily contribution stats*
 - *[x] show calendar
