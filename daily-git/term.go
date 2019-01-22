@@ -2,10 +2,13 @@ package main
 
 import (
 	"fmt"
+	"log"
 	"os"
 	"time"
 
 	"github.com/gdamore/tcell"
+	"github.com/y0ssar1an/q"
+	colors "gopkg.in/go-playground/colors.v1"
 )
 
 func termInit() {
@@ -48,6 +51,7 @@ func termInit() {
 loop:
 	for {
 		makeBorder(s)
+		makeAvatar(s)
 		makeCalendar(s)
 		select {
 		case <-quit:
@@ -59,6 +63,35 @@ loop:
 	}
 
 	s.Fini()
+}
+
+func makeAvatar(s tcell.Screen) {
+	//w, h := s.Size()
+	img, err := getImage(AvatarURL)
+	if err != nil {
+		log.Fatal(err)
+	}
+	w, h := 24, 24/2
+	st := tcell.StyleDefault.Background(tcell.ColorGreen)
+
+	max := img.Bounds().Max
+
+	xs, ys := max.X/w, max.Y/h
+
+	q.Q(w, h, max, xs, ys) //DEBUG
+
+	for i := PAD; i < max.X/xs; i++ {
+		for j := PAD; j < max.Y/ys; j++ {
+			r, g, b, _ := img.At(i*xs, j*ys).RGBA()
+			rgb, err := colors.RGB(uint8(r/0x101), uint8(g/0x101), uint8(b/0x101))
+			if err != nil {
+				log.Fatal(err)
+			}
+			s.SetCell(i, j, st.Background(tcell.GetColor(rgb.ToHEX().String())), ' ')
+		}
+	}
+
+	s.Show()
 }
 
 func makeBorder(s tcell.Screen) {

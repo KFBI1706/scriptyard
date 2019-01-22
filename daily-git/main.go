@@ -17,6 +17,8 @@ const (
 
 var (
 	weeks []week
+	//AvatarURL is a link to the github avatar for global use
+	AvatarURL string
 )
 
 type day struct {
@@ -47,6 +49,7 @@ func main() {
 			}
 			Login     githubv4.String
 			CreatedAt githubv4.DateTime
+			AvatarURL string `graphql:"avatarUrl(size: 72)"`
 		}
 	}
 	err := client.Query(context.Background(), &query, nil)
@@ -64,6 +67,9 @@ func main() {
 	fmt.Printf("You made %d contributions today!\n", lastDay.ContributionCount)
 
 	fmt.Println("Weeks ", weeks)
+	AvatarURL = query.Viewer.AvatarURL
+
+	fmt.Println("Avatar Url: ", AvatarURL)
 
 	termInit()
 
