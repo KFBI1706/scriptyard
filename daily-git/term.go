@@ -6,7 +6,6 @@ import (
 	"time"
 
 	"github.com/gdamore/tcell"
-	"github.com/y0ssar1an/q"
 )
 
 func termInit() {
@@ -82,11 +81,11 @@ func makeCalendar(s tcell.Screen) {
 	for i := 0; i < w; i++ {
 		for j := 0; j < h; j++ {
 			if j < h-PAD && j > h-7-PAD {
-				if ii, jj := i, j-(h-7-PAD); ii >= PAD && ii < weekCnt+PAD && jj >= PAD && jj < 7+PAD {
-					q.Q(ii, jj) //DEBUG
+				ii, jj := i, j-(h-7-PAD)-1 //Relative coordinates, when we know we're in the correct spot we act like it's starting from 0,0
+				if ii >= PAD && ii < weekCnt+PAD && jj >= 0 && jj <= 7 {
 					color := tcell.ColorWhiteSmoke
-					if jj-PAD < len(weeks[ii-PAD].ContributionDays) {
-						color = tcell.GetColor(string(weeks[ii-PAD].ContributionDays[jj-PAD].Color))
+					if jj < len(weeks[ii-PAD].ContributionDays) {
+						color = tcell.GetColor(string(weeks[ii-PAD].ContributionDays[jj].Color))
 					}
 					s.SetCell(i, j, st.Background(tcell.ColorWhiteSmoke).Foreground(color), '■')
 				}
