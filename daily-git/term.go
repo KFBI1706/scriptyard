@@ -7,7 +7,6 @@ import (
 	"time"
 
 	"github.com/gdamore/tcell"
-	"github.com/y0ssar1an/q"
 	colors "gopkg.in/go-playground/colors.v1"
 )
 
@@ -66,7 +65,6 @@ loop:
 }
 
 func makeAvatar(s tcell.Screen) {
-	//w, h := s.Size()
 	img, err := getImage(AvatarURL)
 	if err != nil {
 		log.Fatal(err)
@@ -77,8 +75,6 @@ func makeAvatar(s tcell.Screen) {
 	max := img.Bounds().Max
 
 	xs, ys := max.X/w, max.Y/h
-
-	q.Q(w, h, max, xs, ys) //DEBUG
 
 	for i := PAD; i < max.X/xs; i++ {
 		for j := PAD; j < max.Y/ys; j++ {
