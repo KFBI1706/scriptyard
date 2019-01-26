@@ -47,8 +47,13 @@ func termInit() {
 	}()
 
 	dur := time.Duration(0)
+	w, h := s.Size()
 loop:
 	for {
+		if tmpW, tmpH := s.Size(); tmpW != w || tmpH != h {
+			w, h = tmpW, tmpH
+			s.Clear()
+		}
 		makeBorder(s)
 		makeAvatar(s)
 		makeCalendar(s)
