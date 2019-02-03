@@ -56,7 +56,7 @@ func SearchHosts(ctx context.Context, search string, page int) (hosts *shodan.Ho
 	}
 
 	if hostCount.Total == 0 {
-		return nil, errors.New("Zero matching hosts for that query")
+		return nil, errors.Errorf("Zero matching hosts for the query '%s' on page %d", search, page)
 	}
 
 	hosts, err = client.GetHostsForQuery(ctx, query)
