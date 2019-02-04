@@ -2,34 +2,9 @@ package main
 
 import (
 	"context"
-	"net"
-	"net/http"
 	"os"
 	"os/signal"
-	"time"
-
-	"github.com/pkg/errors"
-
-	"gopkg.in/ns3777k/go-shodan.v3/shodan"
 )
-
-var client *shodan.Client
-var netTransport = &http.Transport{
-	Dial: (&net.Dialer{
-		Timeout: 10 * time.Second,
-	}).Dial,
-	TLSHandshakeTimeout: 10 * time.Second,
-}
-
-var netClient = &http.Client{
-	Timeout:   time.Second * 10,
-	Transport: netTransport,
-}
-
-func init() {
-	// NewEnvClient creates new Shodan client using environment variable SHODAN_KEY as the token.
-	client = shodan.NewEnvClient(netClient)
-}
 
 func main() {
 	ctx := context.Background()
@@ -43,26 +18,5 @@ func main() {
 		<-signalChan
 		cancel()
 	}()
-
-}
-
-// SearchHosts wraps the shodan search api, seeing if the search will return any results, and if so returns the results for the specified page
-func SearchHosts(ctx context.Context, search string, page int) (hosts *shodan.HostMatch, err error) {
-	query := &shodan.HostQueryOptions{Query: search, Page: page}
-
-	hostCount, err := client.GetHostsCountForQuery(ctx, query)
-	if err != nil {
-		return nil, err
-	}
-
-	if hostCount.Total == 0 {
-		return nil, errors.Errorf("Zero matching hosts for the query '%s' on page %d", search, page)
-	}
-
-	hosts, err = client.GetHostsForQuery(ctx, query)
-	if err != nil {
-		return nil, err
-	}
-	return
 
 }
