@@ -10,6 +10,14 @@ import (
 	colors "gopkg.in/go-playground/colors.v1"
 )
 
+type module struct {
+	draw   func(tcell.Screen)
+	width  int
+	height int
+	border bool
+	title  string
+}
+
 func termInit() {
 	tcell.SetEncodingFallback(tcell.EncodingFallbackASCII)
 	s, e := tcell.NewScreen()
@@ -55,7 +63,9 @@ loop:
 			s.Clear()
 		}
 		makeBorder(s)
+
 		makeAvatar(s)
+		makeStatus(s)
 		makeCalendar(s)
 		select {
 		case <-quit:
@@ -75,10 +85,11 @@ func makeAvatar(s tcell.Screen) {
 	if err != nil {
 		log.Fatal(err)
 	}
-	w, h := 24, 24/2
 	st := tcell.StyleDefault.Background(tcell.ColorGreen)
 
 	max := img.Bounds().Max
+
+	w, h := 24, 24/2
 
 	xs, ys := max.X/w, max.Y/h
 
@@ -100,6 +111,10 @@ func makeAvatar(s tcell.Screen) {
 	}
 
 	s.Show()
+}
+
+func makeStatus(s tcell.Screen) {
+
 }
 
 func makeBorder(s tcell.Screen) {
