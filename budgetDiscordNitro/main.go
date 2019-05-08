@@ -20,14 +20,16 @@ type Emojis struct {
 }
 
 type emoji struct {
+	Name     string `json:"name"`
 	URL      string `json:"url"`
 	Animated bool   `json:"animated"`
 }
 
 // Variables used for command line parameters
 var (
-	Token  string
-	emojis Emojis
+	Token     string
+	GitCommit string
+	emojis    Emojis
 )
 
 func init() {
@@ -63,7 +65,7 @@ func main() {
 				}
 				emojis.List = make([]emoji, 0)
 				for i := range g.Emojis {
-					emojis.List = append(emojis.List, emoji{URL: fmt.Sprintf("https://cdn.discordapp.com/emojis/%s.png", g.Emojis[0].ID), Animated: g.Emojis[i].Animated})
+					emojis.List = append(emojis.List, emoji{Name: g.Emojis[i].Name, URL: fmt.Sprintf("https://cdn.discordapp.com/emojis/%s.png", g.Emojis[0].ID), Animated: g.Emojis[i].Animated})
 				}
 			}
 			dg.State.RUnlock()
