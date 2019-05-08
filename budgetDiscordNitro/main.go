@@ -20,7 +20,7 @@ type Emojis struct {
 }
 
 type emoji struct {
-	ID       string `json:"id"`
+	URL      string `json:"url"`
 	Animated bool   `json:"animated"`
 }
 
@@ -63,7 +63,7 @@ func main() {
 				}
 				emojis.List = make([]emoji, 0)
 				for i := range g.Emojis {
-					emojis.List = append(emojis.List, emoji{ID: g.Emojis[i].ID, Animated: g.Emojis[i].Animated})
+					emojis.List = append(emojis.List, emoji{URL: fmt.Sprintf("https://cdn.discordapp.com/emojis/%s.png", g.Emojis[0].ID), Animated: g.Emojis[i].Animated})
 				}
 			}
 			dg.State.RUnlock()
@@ -73,7 +73,7 @@ func main() {
 		}
 	}()
 
-	startAPI()
+	go startAPI()
 
 	// Wait here until CTRL-C or other term signal is received.
 	fmt.Println("Bot is now running.  Press CTRL-C to exit.")
