@@ -33,8 +33,10 @@ var (
 )
 
 func init() {
-	flag.StringVar(&Token, "t", "", "Bot Token")
+	discordAPIToken := os.Getenv("DISCORD_API_TOKEN")
+	flag.StringVar(&Token, "t", discordAPIToken, "Bot Token")
 	flag.Parse()
+
 }
 
 func main() {

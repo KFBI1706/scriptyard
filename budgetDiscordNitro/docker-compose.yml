@@ -1,0 +1,8 @@
+version: "3.7"
+services:
+  app:
+    secrets:
+      - DISCORD_API_TOKEN
+    image: kfbi/budget-discord-nitro-api
+    ports:
+      - "11337:1337"
