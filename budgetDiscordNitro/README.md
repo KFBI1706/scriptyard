@@ -7,7 +7,7 @@ This project is split up in two parts:
 2. is a CLI client, which uses this API and fetches, converts and adds the image to the system clipboard.
 3. BONUS vue frontend in typescript, just for fun
 
-[x] Make backend
-[ ] Make frontend
-[ ] Support for animated emojis
-[ ] Free CI, image builds, and release binary creation
+- [x] Make backend
+- [ ] Make frontend
+- [ ] Support for animated emojis
+- [ ] Free CI, image builds, and release binary creation
