@@ -3,8 +3,7 @@ services:
   app:
     env_file:
         - .env
-      #image: kfbi/budget-discord-nitro-api:latest
-    build: .
+    image: kfbi/budget-discord-nitro-api:latest
     ports:
       - "11337:1337"
     command: "/app/budgetDiscordNitro"
