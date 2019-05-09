@@ -1,5 +1,5 @@
 ---
-  language: go
+  language: bash
   sudo: required
   notifications:
     email: true
