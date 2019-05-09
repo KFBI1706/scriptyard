@@ -11,3 +11,4 @@ This project is split up in two parts:
 - [ ] Make frontend
 - [ ] Support for animated emojis
 - [ ] Free CI, image builds, and release binary creation
+- [ ] Find a solution for a duplicate emoji names

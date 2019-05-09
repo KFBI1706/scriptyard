@@ -16,10 +16,11 @@ import (
 type Emojis struct {
 	sync.RWMutex
 
-	List []emoji
+	List []Emoji
 }
 
-type emoji struct {
+// Emoji is a small struct with the basic information about an emoji
+type Emoji struct {
 	Name     string `json:"name"`
 	URL      string `json:"url"`
 	Animated bool   `json:"animated"`
@@ -67,9 +68,9 @@ func main() {
 					fmt.Printf("Error getting guild %s\n", g.ID)
 					continue
 				}
-				emojis.List = make([]emoji, 0)
+				emojis.List = make([]Emoji, 0)
 				for i := range g.Emojis {
-					emojis.List = append(emojis.List, emoji{Name: g.Emojis[i].Name, URL: fmt.Sprintf("https://cdn.discordapp.com/emojis/%s.png", g.Emojis[0].ID), Animated: g.Emojis[i].Animated})
+					emojis.List = append(emojis.List, Emoji{Name: g.Emojis[i].Name, URL: fmt.Sprintf("https://cdn.discordapp.com/emojis/%s.png", g.Emojis[0].ID), Animated: g.Emojis[i].Animated})
 				}
 			}
 			dg.State.RUnlock()
