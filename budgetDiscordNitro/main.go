@@ -70,7 +70,7 @@ func main() {
 				}
 				emojis.List = make([]Emoji, 0)
 				for i := range g.Emojis {
-					emojis.List = append(emojis.List, Emoji{Name: g.Emojis[i].Name, URL: fmt.Sprintf("https://cdn.discordapp.com/emojis/%s.png", g.Emojis[0].ID), Animated: g.Emojis[i].Animated})
+					emojis.List = append(emojis.List, Emoji{Name: g.Emojis[i].Name, URL: fmt.Sprintf("https://cdn.discordapp.com/emojis/%s.png", g.Emojis[i].ID), Animated: g.Emojis[i].Animated})
 				}
 			}
 			dg.State.RUnlock()
