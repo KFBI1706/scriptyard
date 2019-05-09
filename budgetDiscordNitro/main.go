@@ -37,6 +37,8 @@ func init() {
 	flag.StringVar(&Token, "t", discordAPIToken, "Bot Token")
 	flag.Parse()
 
+	fmt.Printf("Token: %s\n", Token)
+
 }
 
 func main() {
