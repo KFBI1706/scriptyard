@@ -11,6 +11,9 @@ func startAPI() {
 		emojis.RLock()
 
 		b, err := json.Marshal(emojis.List)
+
+		emojis.RUnlock()
+
 		if err != nil {
 			http.Error(w, err.Error(), http.StatusInternalServerError)
 			return
