@@ -1,13 +1,10 @@
 version: "3.7"
 services:
   app:
-    environment:
-        DISCORD_API_TOKEN: /run/secrets/token
-    image: kfbi/budget-discord-nitro-api:latest
+    env_file:
+        - .env
+      #image: kfbi/budget-discord-nitro-api:latest
+    build: .
     ports:
       - "11337:1337"
     command: "/app/budgetDiscordNitro"
-
-secrets:
-    token:
-        file: .token
